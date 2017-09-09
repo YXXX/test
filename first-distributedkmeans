@@ -36,3 +36,14 @@ while(tempDist>convergeDist&&tempIter<MaxIter)// 当聚类准则比较变量大�
          1kPoints(newP._1) = newP._2}
        tempIter=tempIter+1//已迭代次数更新
 }
+
+//将程序提交给集群，参数未配置
+
+./bin/spark-submit \
+  --class <main-class> \
+  --master <master-url> \
+  --deploy-mode <deploy-mode> \
+  --conf <key>=<value> \
+  ... # other options
+  <application-jar> \
+  [application-arguments]
