@@ -8,6 +8,7 @@
 //
 ./hadoop fs -put  test.txt  .//将test 放入到hdfs中 
 
+//第二部分
 //K-means
 package kmeans
 import org.apache.spark.SparkConf
@@ -37,6 +38,7 @@ while(tempDist>convergeDist&&tempIter<MaxIter)// 当聚类准则比较变量大�
        tempIter=tempIter+1//已迭代次数更新
 }
 
+//第三部分
 //将程序提交给集群，参数未配置
 
 ./bin/spark-submit \
