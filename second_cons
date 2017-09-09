@@ -1,1 +1,4 @@
+//虚拟的数据集
+//根据题目，需要得到消费者如下结构的消费者信息
+//Consumer_id,Item_id,Item_clicked,Item_buy,Item_collected
 
