@@ -1,2 +1,4 @@
 # test
-some tests for intern
+两个测试
+第一个，考察分布式机器学习。需要进行的操作包括，将大文件导入到多台机器,分布式实现k-means.基于hadoop实现。
+第二个，
