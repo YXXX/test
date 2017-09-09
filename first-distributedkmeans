@@ -1,0 +1,38 @@
+//基于spark的分布式k-means
+//数据量大小和数量，处理的复杂度，集群的机器数量以及相连带宽都高时使用分布式，比较有优势。
+//假设m个n维向量组成的数据集已经规整化,存放在test中
+
+//第一部分，导入数据到集群中
+//对于批量小的数据，可以复制拷贝
+//规模大的可以使用hadoop的hdfs
+//
+./hadoop fs -put  test.txt  .//将test 放入到hdfs中 
+
+//K-means
+package kmeans
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+import org.apache.spark.mllib.linalg.Vectors
+import org.apache.spark.mllib.clustering.KMeans
+
+valsc = new SparkContext(args(0), "SparkKMeans")// 初始化Spark集群环境
+val lines = sc.textFile(“HDFS中文件的路径”)//从HDFS读入向量
+val K = arg(2)
+valconvergeDist = arg(3)
+valMaxIter = arg(4)//输入参数赋值给相应变量
+val data = lines.map(parseVector _).cache()//将每个数据点RDD化
+varkPoints = data.takeSample(false, K, 42).toArray//随机抽样产生k个初始聚类中心
+vartempDist = 1.0
+vartempIter=0//聚类准则比较变量和迭代次数中间变量的初始化
+while(tempDist>convergeDist&&tempIter<MaxIter)// 当聚类准则比较变量大于聚类准则值，并且迭代次数不到最大迭代次数时，执行循环内容
+{
+       var closest = data.map (p => (closestPoint(p, kPoints), (p, 1)))//标记所属类别
+       varpointStats = closest.reduceByKey{case ((x1, y1), (x2, y2)) => (x1 + x2, y1 + y2)}
+       varnewPoints = pointStats.map {pair => (pair._1, pair._2._1 / pair._2._2)}.collectAsMap()
+       tempDist = 0.0
+       for (i<- 0 until K){
+         tempDist += kPoints(i).squaredDist(newPoints(i))}
+       for (newP<- newPoints) {//更新聚类中心
+         1kPoints(newP._1) = newP._2}
+       tempIter=tempIter+1//已迭代次数更新
+}
