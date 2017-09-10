@@ -1,12 +1,13 @@
 //给商家推荐用户
 //假设数据已经完成预处理
-//使用逻辑回归模型，判断用户是否会购买某种商品(收藏浏览推荐为特征，购买为标签)
+//使用逻辑回归模型，判断用户是否会购买某种商品(以收藏浏览推荐为特征，购买为标签)
 
+//第一部分，导入数据到hdfs中
+//同第一题
+
+//第二部分，利用数据拟合参数模型
 from __future__ import print_function
-
-
 from pyspark.ml.classification import LogisticRegression
-
 from pyspark.sql import SparkSession
 
 if __name__ == "__main__":
@@ -27,18 +28,19 @@ if __name__ == "__main__":
     # 输出参数
     print("Coefficients: " + str(lrModel.coefficients))
     print("Intercept: " + str(lrModel.intercept))
-
-    # We can also use the multinomial family for binary classification
-    mlr = LogisticRegression(maxIter=10, regParam=0.3, elasticNetParam=0.8, family="multinomial")
-
-    # Fit the model
-    mlrModel = mlr.fit(training)
-
-    # Print the coefficients and intercepts for logistic regression with multinomial family
-    print("Multinomial coefficients: " + str(mlrModel.coefficientMatrix))
-    print("Multinomial intercepts: " + str(mlrModel.interceptVector))
-    # $example off$
-
     spark.stop()
     
+ //d第三部分，判断是否会购买某种商品
+ //得到模型的参数后，根据新的用户的浏览收藏的数据，判断用户的购买意愿。
  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ //第四部分 推荐给商家
+ //通过购买意愿+购买量/浏览次数进行排序
+ //将排列前十的用户推送给商家
