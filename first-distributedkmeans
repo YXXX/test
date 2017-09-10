@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # 训练数据
     print parsedData.collect()
     clusters = KMeans.train(parsedData, k=N, maxIterations=M,
-                            runs=10, initializationMode="random")//N,M根据情况调整
+                            runs=T, initializationMode="random")//N,M,T根据情况调整
 
     #求方差之和
     def error(point):
@@ -44,8 +44,7 @@ if __name__ == "__main__":
     def sort(point):
         return clusters.predict(point)
     clusters_result = parsedData.map(sort)
-    # Save and load model
-    # $example off$
+    #保存 下载模型
     print '聚类结果：'
     print clusters_result.collect()
     sc.stop()
