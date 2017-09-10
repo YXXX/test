@@ -6,6 +6,8 @@
 //同第一题
 
 //第二部分，利用数据拟合参数模型
+//判断是否会购买某种商品
+//得到模型的参数后，根据新的用户的浏览收藏的数据，判断用户的购买意愿。
 from __future__ import print_function
 from pyspark.ml.classification import LogisticRegression
 from pyspark.sql import SparkSession
@@ -34,17 +36,8 @@ if __name__ == "__main__":
     print("Coefficients: " + str(lrModel.coefficients))
     print("Intercept: " + str(lrModel.intercept))
     spark.stop()
- 
-//判断是否会购买某种商品
-//得到模型的参数后，根据新的用户的浏览收藏的数据，判断用户的购买意愿。
 
-   predict = spark.read.format("libsvm").load("需要预测的数据集")
-   
- 
- 
- 
- 
- //第四部分 推荐给商家
+ //第三部分 推荐给商家
  //通过购买意愿+购买量/浏览次数进行排序（sortby）
  //将排列前一百的用户推送给商家
  //其实我还想把购买数量/浏览次数算进去。但是我不会。
