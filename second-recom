@@ -6,8 +6,6 @@
 //同第一题
 
 //第二部分，利用数据拟合参数模型
-//d第三部分，判断是否会购买某种商品
-//得到模型的参数后，根据新的用户的浏览收藏的数据，判断用户的购买意愿。
 from __future__ import print_function
 from pyspark.ml.classification import LogisticRegression
 from pyspark.sql import SparkSession
@@ -20,7 +18,7 @@ if __name__ == "__main__":
 
     
     # 载入训练数据
-    training = spark.read.format("libsvm").load("消费者点击收藏推荐和购买的数据集")/导入数据集
+    training = spark.read.format("libsvm").load("消费者点击收藏推荐和购买的数据集") //导入数据集
 
     lr = LogisticRegression(maxIter=N, regParam=N, elasticNetParam=N)//设定参数,N需要被替换
 
@@ -28,18 +26,13 @@ if __name__ == "__main__":
     lrModel = lr.fit(training)
     model.save("myModelPath")
     
-    #预测
-    
     # 输出参数
     print("Coefficients: " + str(lrModel.coefficients))
     print("Intercept: " + str(lrModel.intercept))
     spark.stop()
-    
-import sys
-from pyspark import SparkConf, SparkContext
-from pyspark.mllib.classification import LogisticRegressionWithLBFGS, LogisticRegressionModel
-from pyspark.mllib.regression import LabeledPoint
-
+ 
+//判断是否会购买某种商品
+//得到模型的参数后，根据新的用户的浏览收藏的数据，判断用户的购买意愿。
 
 
  
