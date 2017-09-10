@@ -10,34 +10,45 @@
 ./hadoop fs -put  test.txt  .//将test 放入到hdfs中 
 
 //第二部分
-//K-means
-package kmeans
-import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
-import org.apache.spark.mllib.linalg.Vectors
-import org.apache.spark.mllib.clustering.KMeans
+//K-means.py
+#coding:utf-8
+from numpy import array
+from math import sqrt
+from pyspark import SparkContext
+from pyspark.mllib.clustering import KMeans, KMeansModel
 
-valsc = new SparkContext(args(0), "SparkKMeans")// 初始化Spark集群环境
-val lines = sc.textFile(“HDFS中文件的路径”)//从HDFS读入向量
-val K = arg(2)
-valconvergeDist = arg(3)
-valMaxIter = arg(4)//输入参数赋值给相应变量
-val data = lines.map(parseVector _).cache()//将每个数据点RDD化
-varkPoints = data.takeSample(false, K, 42).toArray//随机抽样产生k个初始聚类中心
-vartempDist = 1.0
-vartempIter=0//聚类准则比较变量和迭代次数中间变量的初始化
-while(tempDist>convergeDist&&tempIter<MaxIter)// 当聚类准则比较变量大于聚类准则值，并且迭代次数不到最大迭代次数时，执行循环内容
-{
-       var closest = data.map (p => (closestPoint(p, kPoints), (p, 1)))//标记所属类别
-       varpointStats = closest.reduceByKey{case ((x1, y1), (x2, y2)) => (x1 + x2, y1 + y2)}
-       varnewPoints = pointStats.map {pair => (pair._1, pair._2._1 / pair._2._2)}.collectAsMap()
-       tempDist = 0.0
-       for (i<- 0 until K){
-         tempDist += kPoints(i).squaredDist(newPoints(i))}
-       for (newP<- newPoints) {//更新聚类中心
-         1kPoints(newP._1) = newP._2}
-       tempIter=tempIter+1//已迭代次数更新
-}
+
+if __name__ == "__main__":
+    sc = SparkContext(appName="KMeansExample",master='local')  # SparkContext
+
+
+    # 读取并处理数据
+    data = sc.textFile("hdsf中test.txt路径")
+    print data.collect()
+    parsedData = data.map(lambda line: array([float(x) for x in line.split(' ')]))
+
+    # 训练数据
+    print parsedData.collect()
+    clusters = KMeans.train(parsedData, k=N, maxIterations=M,
+                            runs=10, initializationMode="random")//N,M根据情况调整
+
+    #求方差之和
+    def error(point):
+        center = clusters.centers[clusters.predict(point)]
+        return sqrt(sum([x**2 for x in (point - center)]))
+    WSSSE = parsedData.map(lambda point: error(point)).reduce(lambda x, y: x + y)
+
+    print("Within Set Sum of Squared Error = " + str(WSSSE))
+
+    #聚类结果
+    def sort(point):
+        return clusters.predict(point)
+    clusters_result = parsedData.map(sort)
+    # Save and load model
+    # $example off$
+    print '聚类结果：'
+    print clusters_result.collect()
+    sc.stop()
 
 //第三部分
 //将程序提交给集群，参数未配置
