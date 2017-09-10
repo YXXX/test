@@ -1,5 +1,6 @@
 //给商家推荐用户
 //假设数据已经完成预处理
+//使用逻辑回归模型，判断用户是否会购买某种商品(收藏浏览推荐为特征，购买为标签)
 
 from __future__ import print_function
 
@@ -14,8 +15,8 @@ if __name__ == "__main__":
         .appName("LogisticRegressionWithElasticNet")\
         .getOrCreate()
 
-    # $example on$
-    # Load training data
+    
+    # 载入训练数据
     training = spark.read.format("libsvm").load("消费者点击收藏推荐和购买的数据集")/导入数据集
 
     lr = LogisticRegression(maxIter=N, regParam=N, elasticNetParam=N)//设定参数,N需要被替换
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     # 拟合模型
     lrModel = lr.fit(training)
 
-    # Print the coefficients and intercept for logistic regression
+    # 输出参数
     print("Coefficients: " + str(lrModel.coefficients))
     print("Intercept: " + str(lrModel.intercept))
 
