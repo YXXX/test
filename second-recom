@@ -3,9 +3,9 @@
 
 from __future__ import print_function
 
-# $example on$
+
 from pyspark.ml.classification import LogisticRegression
-# $example off$
+
 from pyspark.sql import SparkSession
 
 if __name__ == "__main__":
@@ -16,11 +16,11 @@ if __name__ == "__main__":
 
     # $example on$
     # Load training data
-    training = spark.read.format("libsvm").load("data/mllib/sample_libsvm_data.txt")
+    training = spark.read.format("libsvm").load("消费者点击收藏推荐和购买的数据集")/导入数据集
 
-    lr = LogisticRegression(maxIter=10, regParam=0.3, elasticNetParam=0.8)
+    lr = LogisticRegression(maxIter=N, regParam=N, elasticNetParam=N)//设定参数,N需要被替换
 
-    # Fit the model
+    # 拟合模型
     lrModel = lr.fit(training)
 
     # Print the coefficients and intercept for logistic regression
