@@ -37,9 +37,15 @@ if __name__ == "__main__":
     # 输出参数
     print("Coefficients: " + str(lrModel.coefficients))
     print("Intercept: " + str(lrModel.intercept))
-    spark.stop()
+    
 
  //第三部分 推荐给商家
  //通过购买意愿+购买量/浏览次数进行排序（sortby）
- //将排列前一百的用户推送给商家
- //其实我还想把购买数量/浏览次数算进去。但是我不会。
+ //将排列前N的用户推送给商家
+ rank=predict.sortBy(x => x, false).collect
+
+ spark.stop()
+ 
+ 
+ //将程序打包，提交到集群运行。
+ 
